@@ -21,7 +21,7 @@ function Posts() {
             <div key={post._id}>
               <Post {...post} />
             </div>
-          )
+          );
         })
       }
     </div>
