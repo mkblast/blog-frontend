@@ -1,0 +1,8 @@
+.post > a {
+  text-decoration: none;
+  color: #ebdbb2;
+}
+
+.post:hover {
+  background-color: #3c3836;
+}
