@@ -1,5 +1,5 @@
-import NavigationBar from "./components/Home/NavigationBar"
-import Posts from "./components/Home/Posts"
+import NavigationBar from "./components/Home/NavigationBar";
+import Posts from "./components/Home/Posts";
 import Styles from "./App.module.css";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
         <Posts />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

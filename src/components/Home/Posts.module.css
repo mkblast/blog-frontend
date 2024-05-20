@@ -1,0 +1,14 @@
+.posts {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+
+@media (max-width: 750px) {
+  .posts {
+    flex-direction: column;
+    align-content: space-around;
+  }
+}

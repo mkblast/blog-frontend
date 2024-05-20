@@ -1,9 +1,10 @@
 .post {
   padding: 5px 15px;
   border-radius: 5px;
+  width: 30vw;
 }
 
-.post > a {
+.post>a {
   text-decoration: none;
   color: #ebdbb2;
 }
@@ -13,6 +14,23 @@
 }
 
 .details {
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
+}
+
+.body>* {
+  color: #a89984;
+  font-size: 1em;
+}
+
+.post>a>p {
+  text-align: right;
+}
+
+
+@media (max-width: 750px) {
+  .post {
+    width: unset;
+  }
 }

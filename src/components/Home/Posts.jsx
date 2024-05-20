@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Post from "./Post";
+import Styles from "./Posts.module.css";
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -10,11 +11,12 @@ function Posts() {
       const json = await res.json();
 
       setPosts(json);
+
     })();
   }, []);
 
   return (
-    <div>
+    <div className={Styles.posts}>
       {
         posts.map(post => {
           return (
