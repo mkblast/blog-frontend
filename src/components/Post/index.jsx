@@ -7,8 +7,8 @@ import Markdown from 'react-markdown';
 
 function Post() {
   const { postId } = useParams();
-  const [status, setStatus] = useState();
-  const [post, setPost] = useState({});
+  const [status, setStatus] = useState(null);
+  const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
 
   useEffect(() => {
@@ -41,22 +41,27 @@ function Post() {
     <>
       <NavigationBar />
       <div className={Styles.canvas}>
-        <div className={Styles.post}>
-          <div className={Styles.postTop}>
-            <h1>{post.title}</h1>
-            <div className={Styles.details}>
-              <p>
-                By: {post.author}
-              </p>
-              <p> On: {
-                DateTime
-                  .fromISO(post.published_date)
-                  .toLocaleString(DateTime.DATE_FULL)
-              } </p>
+        {post ?
+          <div className={Styles.post}>
+
+            <div className={Styles.postTop}>
+              <h1>{post.title}</h1>
+              <div className={Styles.details}>
+                <p>
+                  By: {post.author}
+                </p>
+                <p> On: {
+                  DateTime
+                    .fromISO(post.published_date)
+                    .toLocaleString(DateTime.DATE_FULL)
+                } </p>
+              </div>
             </div>
+            <Markdown className={Styles.body}>{post.body}</Markdown>
           </div>
-          <Markdown className={Styles.body}>{post.body}</Markdown>
-        </div>
+          :
+          <div></div>
+        }
         <div className={Styles.comments}>
           {
             comments ?
@@ -80,7 +85,7 @@ function Post() {
                   );
                 })
               :
-              <p>Loading Comments</p>
+              <div></div>
           }
         </div>
 
