@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "../Home/NavigationBar";
 import { useNavigate } from "react-router-dom";
+import Styles from "./index.module.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -55,87 +56,105 @@ function Signup() {
   return (
     <>
       <NavigationBar />
-      <div>
-        <form onSubmit={(e) => {
+      <div className={Styles.canvas}>
+        <form className={Styles.form} onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
         }}>
-          <label >
-            First name:
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) =>
-                handleFormChange(setFirstName, e.target.value)
+          <div className={Styles.personal}>
+            <label >
+              First name
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) =>
+                  handleFormChange(setFirstName, e.target.value)
+                }
+                required
+              />
+            </label>
+
+            <label >
+              Last name
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) =>
+                  handleFormChange(setLastName, e.target.value)
+                }
+                required
+              />
+            </label>
+          </div>
+
+          <div className={Styles.email}>
+            <label >
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(e) =>
+                  handleFormChange(setEmail, e.target.value)
+                }
+                required
+              />
+            </label>
+          </div>
+
+          <div className={Styles.password}>
+            <div>
+              <label >
+                Password
+                <input
+                  type="text"
+                  value={password}
+                  onChange={(e) => {
+                    handleFormChange(setPassword, e.target.value);
+                  }}
+                  required
+                />
+              </label>
+
+              <label >
+                Confirm password
+                <input
+                  type="text"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    handleFormChange(setConfirmPassword, e.target.value);
+                  }}
+                  required
+                />
+              </label>
+
+            </div>
+            <div>
+              {
+                match === true || password.length === 0 ?
+                  <p className={Styles.error}></p>
+                  :
+                  <p className={Styles.error}>Password Does not match</p>
               }
-              required
-            />
-          </label>
-
-          <label >
-            Last name:
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) =>
-                handleFormChange(setLastName, e.target.value)
-              }
-              required
-            />
-          </label>
-
-          <label >
-            Email:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) =>
-                handleFormChange(setEmail, e.target.value)
-              }
-              required
-            />
-          </label>
-
-          <label >
-            Password:
-            <input
-              type="text"
-              value={password}
-              onChange={(e) => {
-                handleFormChange(setPassword, e.target.value);
-              }}
-              required
-            />
-          </label>
-
-          <label >
-            Confirm password:
-            <input
-              type="text"
-              value={confirmPassword}
-              onChange={(e) => {
-                handleFormChange(setConfirmPassword, e.target.value);
-              }}
-              required
-            />
-          </label>
-          {
-            match === true || password.length === 0 ?
-              <></>
-              :
-              <p>Password not match</p>
-          }
-          {
-            errors.length === 0 ?
-              <></>
-              :
-              errors.map(err => (
-                <div key={err.msg}>
-                  <p>{err.msg}</p>
-                </div>
-              ))
-          }
-          <button disabled={!match}>submit</button>
+            </div>
+          </div>
+          <div>
+            {
+              errors.length === 0 ?
+                <></>
+                :
+                errors.map(err => (
+                  <div key={err.msg}>
+                    {
+                      err.path ?
+                        <p className={Styles.error}>{err.path}: {err.msg}</p>
+                        :
+                        <p className={Styles.erros}>{err.msg}</p>
+                    }
+                  </div>
+                ))
+            }
+          </div>
+          <button disabled={!match} className={Styles.button}>Sign Up</button>
         </form>
       </div>
     </>

@@ -1,0 +1,104 @@
+.canvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  color: #ebdbb2;
+  background-color: #3c3836;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 70%;
+  height: 80%;
+  border-radius: 5px;
+}
+
+.form label {
+
+  font-weight: bold;
+}
+
+.form input {
+  background-color: #7c6f64;
+  color: #ebdbb2;
+  border: none;
+  height: 1.8em;
+  font-size: 1em;
+  border-radius: 5px;
+}
+
+
+.form input:focus {
+  outline-style: solid;
+  outline-width: 0.15em;
+  outline-color: #fabd2f;
+}
+
+.personal {
+  display: flex;
+  gap: 2em;
+}
+
+.personal * {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.email * {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.password label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.password>div {
+  display: flex;
+  gap: 2em;
+}
+
+.error {
+  height: 1em;
+  color: #cc421d;
+}
+
+.button {
+  font-weight: bold;
+  color: #ebdbb2;
+  background: #458588;
+  font-size: 1em;
+  width: 8em;
+  height: 2.5em;
+  border: none;
+  border-radius: 5px;
+}
+
+.button:hover:not(:disabled) {
+  animation-name: links;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+}
+
+.button:disabled {
+ background-color: #1d2021;
+}
+
+@keyframes links {
+  0% {
+    background: #458588;
+  }
+
+  100% {
+    background: #83a598;
+  }
+}
