@@ -3,6 +3,8 @@ import App from "./App";
 import ErrorPage from "./ErrorPage";
 import Post from "./components/Post";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
 
 function Router() {
 
@@ -20,6 +22,16 @@ function Router() {
     {
       path: "/signup",
       element: <Signup />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/logout",
+      element: <Logout />,
       errorElement: <ErrorPage />,
     }
   ]);

@@ -106,7 +106,7 @@ function Signup() {
               <label >
                 Password
                 <input
-                  type="text"
+                  type="password"
                   value={password}
                   onChange={(e) => {
                     handleFormChange(setPassword, e.target.value);
@@ -118,7 +118,7 @@ function Signup() {
               <label >
                 Confirm password
                 <input
-                  type="text"
+                  type="password"
                   value={confirmPassword}
                   onChange={(e) => {
                     handleFormChange(setConfirmPassword, e.target.value);
@@ -148,7 +148,7 @@ function Signup() {
                       err.path ?
                         <p className={Styles.error}>{err.path}: {err.msg}</p>
                         :
-                        <p className={Styles.erros}>{err.msg}</p>
+                        <p className={Styles.error}>{err.msg}</p>
                     }
                   </div>
                 ))
