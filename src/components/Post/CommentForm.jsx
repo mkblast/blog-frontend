@@ -5,12 +5,11 @@ function CommentForm({ token, setComments, postId }) {
   const textarea = useRef(null);
 
   function handleChange(value) {
-    console.log(value);
     setComment(value);
   }
 
   async function handleSubmit() {
-    const res = await fetch(`http://https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments`, {
+    const res = await fetch(`https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
