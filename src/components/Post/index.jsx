@@ -4,12 +4,15 @@ import NavigationBar from "../Home/NavigationBar";
 import Styles from "./index.module.css";
 import { DateTime } from 'luxon';
 import Markdown from 'react-markdown';
+import CommentForm from './CommentForm';
+
 
 function Post() {
   const { postId } = useParams();
   const [status, setStatus] = useState(null);
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
@@ -61,6 +64,11 @@ function Post() {
           </div>
           :
           <div></div>
+        }
+        {token && post ?
+          <CommentForm token={token} setComments={setComments} postId={postId} />
+          :
+          <></>
         }
         <div className={Styles.comments}>
           {
