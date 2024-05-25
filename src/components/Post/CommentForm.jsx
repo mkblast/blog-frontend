@@ -10,7 +10,7 @@ function CommentForm({ token, setComments, postId }) {
   }
 
   async function handleSubmit() {
-    const res = await fetch(`http://localhost:3000/api/posts/${postId}/comments`, {
+    const res = await fetch(`http://https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
