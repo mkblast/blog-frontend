@@ -13,24 +13,36 @@ function Post() {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
   const token = localStorage.getItem("token");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     (async () => {
       const postPromise = fetch(`https://blog-api-mkblast.glitch.me/api/posts/${postId}`);
       const commentsPromise = fetch(`https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments`);
 
-      const [postStatus, commentsStatus] = await Promise.all([postPromise, commentsPromise]);
-      const [postJson, commentsJson] = await Promise.all([postStatus.json(), commentsStatus.json()]);
+      const [postRes, commentsRes] = await Promise.all([postPromise, commentsPromise]);
+      const [postJson, commentsJson] = await Promise.all([postRes.json(), commentsRes.json()]);
 
-
-      if (postStatus.status === 404) {
+      if (postRes.status === 404) {
         return setStatus(postJson);
+      }
+
+      if (token) {
+        const userRes = await fetch("https://blog-api-mkblast.glitch.me/api/users/me", {
+          headers: {
+            "Authorization": `bearer ${token}`
+          }
+        });
+        const userJson = await userRes.json();
+        if (userRes.ok) {
+          setUser(userJson);
+        }
       }
 
       setPost(postJson);
       setComments(commentsJson);
     })();
-  }, [postId]);
+  }, [postId, token]);
 
   if (status) {
     return (
@@ -38,6 +50,23 @@ function Post() {
         <p>{status.error}</p>
       </div>
     );
+  }
+
+  async function handleDelete(commentId) {
+    const res = await fetch(`https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments/${commentId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `bearer ${token}`
+      }
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      console.log(json);
+    }
+
+    setComments(prev => prev.filter(comment => comment._id !== commentId));
   }
 
   return (
@@ -89,6 +118,11 @@ function Post() {
 
                       </div>
                       <p>{comment.body}</p>
+                      {comment.author_id === user._id && user ?
+                        <button onClick={() => handleDelete(comment._id)}>Delete</button>
+                        :
+                        <></>
+                      }
                     </div>
                   );
                 })
@@ -96,7 +130,6 @@ function Post() {
               <div></div>
           }
         </div>
-
       </div>
     </>
   );
