@@ -12,8 +12,8 @@ function Post() {
   const [status, setStatus] = useState(null);
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState(null);
-  const token = localStorage.getItem("token");
   const [user, setUser] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
@@ -69,6 +69,55 @@ function Post() {
     setComments(prev => prev.filter(comment => comment._id !== commentId));
   }
 
+  function handleEdit(commentId) {
+    setComments(prev => prev.map(comment => (
+      { ...comment, isEdit: comment._id === commentId ? true : comment.isEdit }
+    )));
+  }
+
+  function handleEditChange(commentId, value) {
+    setComments(prev => prev.map(comment => (
+      { ...comment, edit: comment._id === commentId ? value : "" }
+    )));
+  }
+
+  function handleCancel(commentId) {
+    setComments(prev => prev.map(comment => (
+      comment._id === commentId ?
+        { ...comment, isEdit: false, edit: "" }
+        :
+        { ...comment }
+    )));
+  }
+
+  async function handleSubmitChange(commentId, body) {
+    const res = await fetch(`https://blog-api-mkblast.glitch.me/api/posts/${postId}/comments/${commentId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `bearer ${token}`
+      },
+      body: JSON.stringify({
+        body,
+      }),
+    });
+
+    console.log(body);
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      return console.log(json);
+    }
+
+    setComments(prev => prev.map(comment => (
+      json.update._id === comment._id ?
+        { ...json.update, edit: "", isEdit: false }
+        :
+        comment
+    )));
+  }
+
   return (
     <>
       <NavigationBar />
@@ -92,7 +141,7 @@ function Post() {
             <Markdown className={Styles.body}>{post.body}</Markdown>
           </div>
           :
-          <div></div>
+          <></>
         }
         {token && post ?
           <CommentForm token={token} setComments={setComments} postId={postId} />
@@ -117,11 +166,31 @@ function Post() {
                         }</p>
 
                       </div>
-                      <p>{comment.body}</p>
                       {comment.author_id === user._id && user ?
-                        <button onClick={() => handleDelete(comment._id)}>Delete</button>
+                        <>
+                          {comment.isEdit ?
+                            <>
+                              <textarea
+                                name="body"
+                                cols="60"
+                                rows="5"
+                                defaultValue={comment.body}
+                                onChange={e => handleEditChange(comment._id, e.target.value)}
+                              >
+                              </textarea>
+                              <button onClick={() => handleCancel(comment._id)}>Cancel</button>
+                              <button onClick={() => handleSubmitChange(comment._id, comment.edit)}>Done</button>
+                            </>
+                            :
+                            <>
+                              <p>{comment.body}</p>
+                              <button onClick={() => handleEdit(comment._id)}>Edit</button>
+                            </>
+                          }
+                          <button onClick={() => handleDelete(comment._id)}>Delete</button>
+                        </>
                         :
-                        <></>
+                        <p>{comment.body}</p>
                       }
                     </div>
                   );
